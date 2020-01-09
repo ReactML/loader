@@ -1,0 +1,22 @@
+{
+  "name": "rml-loader",
+  "version": "0.1.0",
+  "description": "",
+  "main": "",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ReactML/rml-loader.git"
+  },
+  "keywords": [
+    "rml"
+  ],
+  "author": "RaxTeam",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ReactML/rml-loader/issues"
+  },
+  "homepage": "https://github.com/ReactML/rml-loader#readme"
+}
