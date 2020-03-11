@@ -1,0 +1,38 @@
+<script>
+ import { useState, useCallback } from 'react';
+
+ export default function (props) {
+  const [foo, setFoo] = useState(true);
+  const handleClick = useCallback((evt) => {
+    // todo with evt.
+    setFoo(false);
+  }, [foo]);
+
+  return {
+    color: 'yellow',
+    handleClick,
+    foo,
+    fn: () => 'hello world',
+  };
+}
+</script>
+
+<style>
+  .foo {
+    color: red;
+  }
+</style>
+
+<import Button="Button" from="@alifd/next" />
+<div className="container">
+  <div>{ "插值" }</div>
+  <div>{ foo }</div>
+  <div>{ foo + '...' }</div>
+  <div>{ foo ? '1' : '2' }</div>
+  <div>{ fn(1) }</div>
+  <div>
+    <Button type="primary" onClick={handleClick}>
+      Primary Button
+    </Button>
+  </div>
+</div>

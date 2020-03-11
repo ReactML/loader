@@ -1,5 +1,7 @@
 const { DomHandler, Parser, DomUtils } = require('htmlparser2');
 
+const partsStorage = new Map();
+
 function getDomObject(html) {
   const handler = new DomHandler(() => { }, {
     withStartIndices: true,
@@ -28,7 +30,19 @@ function outerHTML(dom, html) {
   return html.substring(startIndex, endIndex + 1).trim();
 }
 
-exports.selectPart = function selectPart(parts, part) {
+function getResourcePart(key, part, rawContent) {
+  let parts;
+  if (partsStorage.has(key)) {
+    parts = partsStorage.get(key);
+  } else {
+    parts = parseSFCParts(rawContent);
+    partsStorage.set(key, parts);
+  }
+
+  return selectPart(parts, part);
+}
+
+function selectPart(parts, part) {
   switch (part) {
     case 'template':
     case 'script':
@@ -40,7 +54,7 @@ exports.selectPart = function selectPart(parts, part) {
   }
 }
 
-exports.parseSFCParts = function parseSFCParts(html) {
+function parseSFCParts(html) {
   const dom = getDomObject(html);
   const importLinks = [];
   const templates = [];
@@ -100,4 +114,14 @@ exports.parseSFCParts = function parseSFCParts(html) {
     },
     importLinks: importLinks,
   };
-};
+}
+
+function preCompileParts(html, key) {
+  const parts = parseSFCParts(html);
+  partsStorage.set(key, parts);
+}
+
+exports.getResourcePart = getResourcePart;
+exports.selectPart = selectPart;
+exports.parseSFCParts = parseSFCParts;
+exports.preCompileParts = preCompileParts;

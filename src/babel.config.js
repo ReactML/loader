@@ -1,16 +1,12 @@
-const chalk = require('chalk');
 const babelMerge = require('babel-merge');
 
 const defaultOptions = {
-  disableJSXPlus: process.env.DISABLE_JSX_PLUS,
   styleSheet: false,
 };
 
-let logOnce = true;
-
-module.exports = (userOptions = {}) => {
+module.exports = (userOptions) => {
   const options = Object.assign({}, defaultOptions, userOptions);
-  const { styleSheet, disableJSXPlus, custom = {} } = options;
+  const { styleSheet, override } = options;
 
   const baseConfig = {
     presets: [
@@ -72,39 +68,32 @@ module.exports = (userOptions = {}) => {
     ],
   };
 
-  const configArr = [baseConfig];
+  const babelConfigList = [baseConfig];
 
   // Enable jsx plus default.
-  if (!disableJSXPlus) {
-    configArr.push({
-      plugins: [
-        require.resolve('babel-plugin-transform-jsx-list'),
-        require.resolve('babel-plugin-transform-jsx-condition'),
-        require.resolve('babel-plugin-transform-jsx-memo'),
-        require.resolve('babel-plugin-transform-jsx-slot'),
-        [require.resolve('babel-plugin-transform-jsx-fragment'), { moduleName: 'rax' }],
-        require.resolve('babel-plugin-transform-jsx-class'),
-      ],
-    });
-
-    if (logOnce) {
-      console.log(chalk.green('[JSX+] Stynax enabled, more visit: https://github.com/jsx-plus/jsx-plus'));
-      logOnce = false;
-    }
-  }
+  babelConfigList.push({
+    plugins: [
+      require.resolve('babel-plugin-transform-jsx-list'),
+      require.resolve('babel-plugin-transform-jsx-condition'),
+      require.resolve('babel-plugin-transform-jsx-memo'),
+      require.resolve('babel-plugin-transform-jsx-slot'),
+      [require.resolve('babel-plugin-transform-jsx-fragment'), { moduleName: 'rax' }],
+      require.resolve('babel-plugin-transform-jsx-class'),
+    ],
+  });
 
   if (styleSheet) {
-    configArr.push({
+    babelConfigList.push({
       plugins: [
         [require.resolve('babel-plugin-transform-jsx-stylesheet'), { retainClassName: true }],
       ],
     });
   }
 
-  // merge custom config
-  configArr.push(custom);
+  // Overrides default configs.
+  if (override) {
+    babelConfigList.push(override);
+  }
 
-  const result = babelMerge.all(configArr);
-
-  return result;
+  return babelMerge.all(babelConfigList);
 };
