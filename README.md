@@ -17,7 +17,7 @@ For example:
 **file.js**
 
 ```js
-import Module from 'module.rml';
+import Module from './module.rml';
 ```
 
 **webpack.config.js**
@@ -28,11 +28,18 @@ module.exports = {
     rules: [
       {
         test: /\.rml$/i,
-        use: ['rml-loader'],
+        loader: rmlLoader,
+        options: {
+          renderer: 'react',
+        },
       },
     ],
   },
 };
 ```
+
+### Options
+
+- renderer {String} Determin react replacement renderer. (default to 'react')
 
 And run `webpack` via your preferred method.
