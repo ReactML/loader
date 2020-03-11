@@ -1,4 +1,4 @@
-const { DomHandler, Parser, DomUtils } = require('htmlparser2');
+const { DomHandler, Parser } = require('htmlparser2');
 
 const partsStorage = new Map();
 

@@ -1,5 +1,13 @@
-
-module.exports = function ({ types: t }, options) {
+/**
+ * Babel plugins to add prefix for identifiers.
+ *
+ * eg: var a = foo; -> var a = props.foo;
+ * @param t BabelTypes
+ * @param options.key {string} Prefixed identifier.
+ * @param options.whiteList {Array<string>} Identifiers that not to transform.
+ * @return {visitor}
+ */
+module.exports = function({ types: t }, options) {
   const { key = 'props', whiteList = [] } = options;
   const prefix = t.identifier(key);
 
@@ -31,4 +39,4 @@ module.exports = function ({ types: t }, options) {
       },
     },
   };
-}
+};

@@ -13,7 +13,7 @@ module.exports = function RMLLoader(rawContent) {
 
   preCompileParts(rawContent, resourcePath);
 
-  const loadScriptRequest = stringifyRequest(`${paths.scriptLoader}!${paths.partLoader}?part=script!${resourcePath}`);
+  const loadScriptRequest = stringifyRequest(`${paths.partLoader}?part=script!${resourcePath}`);
   const loadTemplateRequest = stringifyRequest(`${paths.templateLoader}!${paths.partLoader}?part=template!${resourcePath}`);
   const loadStyleRequest = stringifyRequest(`${paths.styleLoader}?disableLog=true&transformDescendantCombinator=true!${paths.partLoader}?part=style!${resourcePath}`);
 
@@ -27,4 +27,4 @@ export default function AnonymousRMLModule(props) {
   `;
 
   return code.trim();
-}
+};

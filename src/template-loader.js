@@ -2,7 +2,12 @@ const babel = require('@babel/core');
 const getBabelConfig = require('./babel.config');
 const { getResourcePart } = require('./parts');
 
-module.exports = function (templates) {
+/**
+ * Babel loader to parse rml templates.
+ * @param templates
+ * @return {string}
+ */
+module.exports = function(templates) {
   const { resourcePath } = this;
   if (!Array.isArray(templates)) {
     templates = [templates];
@@ -18,7 +23,7 @@ export default function __render__(props, __styles__) {
   return ${jsx};
 }
   `.trim();
-}
+};
 
 function generateImports(importLinks) {
   const scopeIds = [];

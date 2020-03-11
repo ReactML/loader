@@ -1,3 +1,6 @@
+/**
+ * Provide basic babel config.
+ */
 const babelMerge = require('babel-merge');
 
 const defaultOptions = {
