@@ -1,9 +1,51 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parts should parse rml 1`] = `""`;
+exports[`parts should parse rml 1`] = `
+"import { useState, useCallback } from 'react';
 
-exports[`parts should parse rml 2`] = `Array []`;
+ export default function (props) {
+  const [foo, setFoo] = useState(true);
+  const handleClick = useCallback((evt) => {
+    setFoo(false);
+  }, [foo]);
 
-exports[`parts should parse rml 3`] = `""`;
+  return {
+    color: 'yellow',
+    handleClick,
+    foo,
+    fn: () => 'hello world',
+  };
+}"
+`;
 
-exports[`parts should parse rml 4`] = `Array []`;
+exports[`parts should parse rml 2`] = `
+Array [
+  "<div className=\\"container\\">
+  <div>{ \\"插值\\" }</div>
+  <div>{ foo }</div>
+  <div>{ foo + '...' }</div>
+  <div>{ foo ? '1' : '2' }</div>
+  <div>{ fn(1) }</div>
+  <div>
+    <Button type=\\"primary\\" onClick={handleClick}>
+      Primary Button
+    </Button>
+  </div>
+</div>",
+]
+`;
+
+exports[`parts should parse rml 3`] = `
+".foo {
+    color: red;
+  }"
+`;
+
+exports[`parts should parse rml 4`] = `
+Array [
+  Object {
+    "Button": "Button",
+    "from": "@alifd/next",
+  },
+]
+`;
