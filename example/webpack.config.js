@@ -28,10 +28,16 @@ module.exports = {
       {
         test: /\.scss$/,
         use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader'
-        ].map(require.resolve),
+          require.resolve('style-loader'),
+          {
+            loader: require.resolve('css-loader'),
+            options: {
+              // enable CSS Modules
+              modules: true,
+            }
+          },
+          require.resolve('sass-loader'),
+        ],
       }
     ],
   },

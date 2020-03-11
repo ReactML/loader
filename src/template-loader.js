@@ -3,6 +3,9 @@ const babel = require('@babel/core');
 const getBabelConfig = require('./babel.config');
 const { getResourcePart } = require('./parts');
 
+const STYLE_IDENTIFIER = '__style__';
+const GET_CSS_MODULE_NAME = '__get_css_module_name__';
+
 /**
  * Babel loader to parse rml templates.
  * @param templates
@@ -10,22 +13,30 @@ const { getResourcePart } = require('./parts');
  */
 module.exports = function(templates) {
   const { resourcePath } = this;
+  const stringifyRequest = r => loaderUtils.stringifyRequest(this, r);
   const { renderer } = Object.assign({}, loaderUtils.getOptions(this));
   if (!Array.isArray(templates)) {
     templates = [templates];
   }
+  // TODO: judge module attr.
+  const enableCSSModules = true;
 
   const importLinks = getResourcePart(resourcePath, 'importLinks');
   const { imports, scopeIds } = generateImports(importLinks);
-  const jsx = generateJSX(templates, scopeIds);
+  let extraImports = '';
+  if (enableCSSModules) {
+    const getCSSModuleNameRuntime = require.resolve('./runtime/get-css-module-name');
+    const getCSSModuleNameRuntimeRequest = stringifyRequest(getCSSModuleNameRuntime);
+    extraImports += `\nimport ${GET_CSS_MODULE_NAME} from ${getCSSModuleNameRuntimeRequest};`;
+  }
+  const jsx = generateJSX(templates, scopeIds, enableCSSModules);
 
   return `
-import { createElement } from '${renderer}';${imports}
-
-export default function __render__(props, __styles__) {
+import { createElement } from '${renderer}';${imports}${extraImports}
+export default function __render__(props, ${STYLE_IDENTIFIER}) {
   return ${jsx};
 }
-  `.trim();
+  `.trim() + '\n';
 };
 
 function generateImports(importLinks) {
@@ -67,18 +78,32 @@ function compile(template, compileOptions, babelConfig) {
   return babel.transformSync(template, finalTransformOptions);
 }
 
-function generateJSX(templates, scopeIds) {
-  const whiteList = ['createElement'].concat(scopeIds);
+function generateJSX(templates, scopeIds, enableCSSModules) {
+  const whiteList = ['createElement', STYLE_IDENTIFIER].concat(scopeIds);
+  if (enableCSSModules) {
+    whiteList.push(GET_CSS_MODULE_NAME);
+  }
+
+  const babelConfigOverride = { plugins: [] };
+  babelConfigOverride.plugins.push([
+    require.resolve('./babel-plugin-with-props'),
+    {
+      key: 'props',
+      whiteList,
+    }
+  ]);
+  if (enableCSSModules) {
+    babelConfigOverride.plugins.push([
+      require.resolve('./babel-plugin-css-modules'),
+      {
+        styleMappingIdentifier: STYLE_IDENTIFIER,
+        getCSSModuleNameIdentifier: GET_CSS_MODULE_NAME,
+      }
+    ]);
+  }
   const babelConfig = getBabelConfig({
     styleSheet: true,
-    override: {
-      plugins: [
-        [require.resolve('./babel-plugin-with-props'), {
-          key: 'props',
-          whiteList,
-        }],
-      ],
-    },
+    override: babelConfigOverride,
   });
 
   const jsxTpls = templates.map(template => {
