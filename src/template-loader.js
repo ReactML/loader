@@ -21,6 +21,7 @@ module.exports = function(templates) {
 
   return `
 import { createElement } from '${renderer}';${imports}
+
 export default function __render__(props, __styles__) {
   return ${jsx};
 }

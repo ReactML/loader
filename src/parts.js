@@ -42,19 +42,20 @@ function getResourcePart(key, part, rawContent) {
   return selectPart(parts, part);
 }
 
+/**
+ * enum Part {
+ *   template,
+ *   script,
+ *   style,
+ *   importLinks,
+ * }
+ */
 function selectPart(parts, part) {
-  switch (part) {
-    case 'template':
-    case 'script':
-    case 'style':
-      return parts[part].content;
-
-    case 'importLinks':
-      return parts[part];
-  }
+  return parts[part] || null;
 }
 
 function parseSFCParts(html) {
+  const result = {};
   const dom = getDomObject(html);
   const importLinks = [];
   const templates = [];
@@ -74,14 +75,20 @@ function parseSFCParts(html) {
           tag += ' />';
           console.warn('[RML] import tag should have it\'s from attribute: ' + tag);
         }
+        result.importLinks = importLinks;
         break;
 
       case 'style':
-        style += innerHTML(node, html);
-        break;
-
       case 'script':
-        script += innerHTML(node, html);
+        if (result[name]) {
+          throw new Error(`RML can only have 1 ${name} tag exists.`);
+        } else {
+          result[name] = {
+            type: name,
+            content: innerHTML(node, html),
+            attrs: attribs,
+          };
+        }
         break;
 
       default:
@@ -99,21 +106,15 @@ function parseSFCParts(html) {
     }
   });
 
-  return {
-    template: {
+  if (templates.length > 0) {
+    result.template = {
       type: 'template',
-      content: templates
-    },
-    script: {
-      type: 'script',
-      content: script,
-    },
-    style: {
-      type: 'style',
-      content: style
-    },
-    importLinks: importLinks,
-  };
+      content: templates,
+      attrs: {},
+    };
+  }
+
+  return result;
 }
 
 function preCompileParts(html, key) {

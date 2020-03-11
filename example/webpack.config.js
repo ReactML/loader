@@ -1,4 +1,5 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+// const RMLPlugin = require('../src/plugin');
 const path = require('path');
 const rmlLoader = require.resolve('..');
 
@@ -20,9 +21,22 @@ module.exports = {
           renderer: 'react',
         },
       },
+      {
+        test: /\.css$/,
+        use: require.resolve('stylesheet-loader'),
+      },
+      {
+        test: /\.scss$/,
+        use: [
+          'style-loader',
+          'css-loader',
+          'sass-loader'
+        ].map(require.resolve),
+      }
     ],
   },
   plugins: [
+    // new RMLPlugin(),
     new HtmlWebpackPlugin({ template: 'index.html' }),
   ],
 };

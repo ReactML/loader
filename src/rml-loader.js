@@ -21,16 +21,17 @@ module.exports = function RMLLoader(rawContent) {
 
   const loadScriptRequest = stringifyRequest(`${paths.partLoader}?part=script!${resourcePath}`);
   const loadTemplateRequest = stringifyRequest(`${paths.templateLoader}?renderer=${renderer}!${paths.partLoader}?part=template!${resourcePath}`);
-  const loadStyleRequest = stringifyRequest(`${paths.styleLoader}?disableLog=true&transformDescendantCombinator=true!${paths.partLoader}?part=style!${resourcePath}`);
+  const loadStyleRequest = stringifyRequest(`${paths.styleLoader}!${resourcePath}`);
 
   const code = `
 import createData from ${loadScriptRequest};
 import render from ${loadTemplateRequest};
-import styles from ${loadStyleRequest};
+import style from ${loadStyleRequest};
+
 export default function AnonymousRMLModule(props) {
-  return render(createData(props), styles);
+  return render(createData(props), style);
 }
   `;
 
-  return code.trim();
+  return code.trim() + '\n';
 };
