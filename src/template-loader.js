@@ -1,3 +1,4 @@
+const loaderUtils = require('loader-utils');
 const babel = require('@babel/core');
 const getBabelConfig = require('./babel.config');
 const { getResourcePart } = require('./parts');
@@ -9,6 +10,7 @@ const { getResourcePart } = require('./parts');
  */
 module.exports = function(templates) {
   const { resourcePath } = this;
+  const { renderer } = Object.assign({}, loaderUtils.getOptions(this));
   if (!Array.isArray(templates)) {
     templates = [templates];
   }
@@ -18,7 +20,7 @@ module.exports = function(templates) {
   const jsx = generateJSX(templates, scopeIds);
 
   return `
-import { createElement } from 'react';${imports}
+import { createElement } from '${renderer}';${imports}
 export default function __render__(props, __styles__) {
   return ${jsx};
 }

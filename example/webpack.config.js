@@ -17,7 +17,7 @@ module.exports = {
         test: /\.rml$/i,
         loader: rmlLoader,
         options: {
-          render: 'react',
+          renderer: 'react',
         },
       },
     ],
