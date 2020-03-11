@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`parts should parse rml 1`] = `""`;
+
+exports[`parts should parse rml 2`] = `Array []`;
+
+exports[`parts should parse rml 3`] = `""`;
+
+exports[`parts should parse rml 4`] = `Array []`;
