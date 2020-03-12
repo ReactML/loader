@@ -7,7 +7,11 @@
  * @return {visitor}
  */
 module.exports = function({ types: t }, options) {
-  const { styleMappingIdentifier = 'styles', getCSSModuleNameIdentifier = 'getCSSModuleName' } = options;
+  const {
+    styleMappingIdentifier = 'styles',
+    getCSSModuleNameIdentifier = 'getCSSModuleName',
+    reserveLocal = false,
+  } = options;
   const mappingId = t.identifier(styleMappingIdentifier);
   const modularizeId = t.identifier(getCSSModuleNameIdentifier);
   return {
@@ -16,11 +20,17 @@ module.exports = function({ types: t }, options) {
         const name = path.get('name');
         if (name.isJSXIdentifier({ name: 'className' })) {
           const valuePath = path.get('value');
+          const classNameArg = t.isJSXExpressionContainer(valuePath.node)
+            ? valuePath.node.expression
+            : valuePath.node;
+          const callArguments = [mappingId, classNameArg];
+          if (reserveLocal) callArguments.push(t.booleanLiteral(true));
+
           valuePath.replaceWith(
             t.jsxExpressionContainer(
               t.callExpression(
                 modularizeId,
-                [mappingId, valuePath.node]
+                callArguments
               )
             )
           );

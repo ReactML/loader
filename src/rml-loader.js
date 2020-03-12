@@ -26,9 +26,10 @@ module.exports = function RMLLoader(rawContent) {
   const code = `
 import createData from ${loadScriptRequest};
 import render from ${loadTemplateRequest};
-import style from ${loadStyleRequest};
+import * as style from ${loadStyleRequest};
 
 export default function AnonymousRMLModule(props) {
+  console.log(style)
   return render(createData(props), style);
 }
   `;

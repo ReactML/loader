@@ -19,9 +19,15 @@
 }
 </script>
 
-<style lang="scss">
+<style lang="scss" module reserve-local>
   .container {
     color: green;
+  }
+
+  :global {
+    .container {
+      background: grey;
+    }
   }
 </style>
 

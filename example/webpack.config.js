@@ -34,6 +34,8 @@ module.exports = {
             options: {
               // enable CSS Modules
               modules: true,
+              // beneficial for tree-shaking
+              esModule: true,
             }
           },
           require.resolve('sass-loader'),
