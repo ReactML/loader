@@ -19,7 +19,7 @@
 }
 </script>
 
-<style lang="scss" module reserve-local>
+<style lang="scss" module>
   .container {
     color: green;
   }
@@ -32,7 +32,7 @@
 </style>
 
 <import Button="Button" from="@alifd/next" />
-<div className="container" style={styles.container}>
+<div className=":container container" style={styles.container}>
   <div>{ "插值" }</div>
   <div>{ foo }</div>
   <div>{ foo + '...' }</div>

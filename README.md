@@ -124,30 +124,30 @@ Then, add the module attribute to your `<style>`，and use `className` as is:
 <div className="red bold">Hello RML</div>
 ```
 
-### Reserve Local Class
+### Use global scope in CSS Modules:
 
-Keep original class name, works only CSS Modules is enabled, default to `false`.
+> Only works when CSS Moudles is enabled.
 
-Attention, enable this may break CSS Modules, it will expose your class to the global scope.
+You can add suffix `:` to your class declaration to tag which to be gloabl,
 
 For example:
 
 ```html
-<style lang="scss" module reserve-local>
+<style lang="scss" module>
   .container {
     color: green;
   }
 
   :global {
-    .container {
+    .global-container {
       background: grey;
     }
   }
 </style>
-<div className="container" />
+<div className="container :global-container" />
 ```
 
-After compiled:
+After compiled, global scope className will not be invoved:
 
 ```html
 <style>
@@ -155,9 +155,9 @@ After compiled:
     color: green;
   }
 
-  .container {
+  .global-container {
      background: grey;
    }
 </style>
-<div class="_2zQP9LGGLck7rMhc9zNHw_ container" />
+<div class="_2zQP9LGGLck7rMhc9zNHw_ global-container" />
 ```

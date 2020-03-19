@@ -4,13 +4,13 @@
  * eg: var a = foo; -> var a = props.foo;
  * @param t BabelTypes
  * @param options.styleMappingIdentifier {string} Style mapping identifier.
+ * @param options.getCSSModuleNameIdentifier {string} Style transformer identifier.
  * @return {visitor}
  */
 module.exports = function({ types: t }, options) {
   const {
     styleMappingIdentifier = 'styles',
     getCSSModuleNameIdentifier = 'getCSSModuleName',
-    reserveLocal = false,
   } = options;
   const mappingId = t.identifier(styleMappingIdentifier);
   const modularizeId = t.identifier(getCSSModuleNameIdentifier);
@@ -24,7 +24,6 @@ module.exports = function({ types: t }, options) {
             ? valuePath.node.expression
             : valuePath.node;
           const callArguments = [mappingId, classNameArg];
-          if (reserveLocal) callArguments.push(t.booleanLiteral(true));
 
           valuePath.replaceWith(
             t.jsxExpressionContainer(

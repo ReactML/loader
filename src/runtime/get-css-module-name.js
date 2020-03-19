@@ -1,12 +1,18 @@
-const SPACE_REG = /\s/;
+const CLASS_NAME_SPLITER = /\s/;
 
-export default function getCSSModuleName(moduleMapping, className, reserveLocal) {
+/**
+ * Support syntax of `:module`, which means global css scope.
+ * @param moduleMapping {object} K-V: local -> module class name.
+ * @param className {string} User input class name.
+ * @return {string} Transformed class name.
+ */
+export default function getCSSModuleName(moduleMapping, className) {
   return String(className)
-    .split(SPACE_REG)
+    .split(CLASS_NAME_SPLITER)
     .map(local => {
-      const module = moduleMapping[local];
-      if (module) {
-        return reserveLocal ? module + ' ' + local : module;
+      if (local[0] === ':') {
+        const module = moduleMapping[local.slice(1)];
+        return module ? module : local;
       } else {
         return local;
       }

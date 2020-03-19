@@ -21,7 +21,6 @@ module.exports = function(templates) {
 
   const style = getResourcePart(resourcePath, 'style');
   const enableCSSModules = style && style.attrs && style.attrs.module != null;
-  const reserveLocal = style && style.attrs && style.attrs['reserve-local'] != null;
 
   const importLinks = getResourcePart(resourcePath, 'importLinks');
   const { imports, scopeIds } = generateImports(importLinks);
@@ -31,7 +30,7 @@ module.exports = function(templates) {
     const getCSSModuleNameRuntimeRequest = stringifyRequest(getCSSModuleNameRuntime);
     extraImports += `\nimport ${GET_CSS_MODULE_NAME} from ${getCSSModuleNameRuntimeRequest};`;
   }
-  const jsx = generateJSX(templates, scopeIds, enableCSSModules, reserveLocal);
+  const jsx = generateJSX(templates, scopeIds, enableCSSModules);
 
   return `
 import { createElement } from '${renderer}';${imports}${extraImports}
@@ -80,7 +79,7 @@ function compile(template, compileOptions, babelConfig) {
   return babel.transformSync(template, finalTransformOptions);
 }
 
-function generateJSX(templates, scopeIds, enableCSSModules, reserveLocal) {
+function generateJSX(templates, scopeIds, enableCSSModules) {
   const whiteList = ['createElement', STYLE_IDENTIFIER].concat(scopeIds);
   if (enableCSSModules) {
     whiteList.push(GET_CSS_MODULE_NAME);
@@ -100,7 +99,6 @@ function generateJSX(templates, scopeIds, enableCSSModules, reserveLocal) {
       {
         styleMappingIdentifier: STYLE_IDENTIFIER,
         getCSSModuleNameIdentifier: GET_CSS_MODULE_NAME,
-        reserveLocal,
       }
     ]);
   }
