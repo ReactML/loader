@@ -29,7 +29,6 @@ import render from ${loadTemplateRequest};
 import * as style from ${loadStyleRequest};
 
 export default function AnonymousRMLModule(props) {
-  console.log(style)
   return render(createData(props), style);
 }
   `;
