@@ -21,7 +21,9 @@
 
 <style lang="scss" module>
   .container {
-    color: green;
+    .strong {
+      font-weight: bold;
+    }
   }
 
   :global {
@@ -57,6 +59,10 @@
   <div>
     <span>表达式：</span>
     <span>{ fn(1) }</span >
+  </div>
+  <div>
+    <span className="strong">Class 样式</span>
+    <span style={{"color": "yellow"}}>行内样式</span>
   </div>
   <div>
     <Button type="primary" onClick={handleClick}>
