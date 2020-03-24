@@ -1,6 +1,6 @@
 # @reactml/loader
 
-The `@reactml/loader` impl the webpack loader for react markup language(RML).
+The `@reactml/loader` impl the webpack loader for [React Markup Language(RML)](https://github.com/ReactML/ReactML).
 
 ## Usage
 
