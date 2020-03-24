@@ -61,8 +61,23 @@
     <span>{ fn(1) }</span >
   </div>
   <div>
-    <span className="strong">Class 样式</span>
-    <span style={{"color": "yellow"}}>行内样式</span>
+    <span>样式：</span>
+    <span className="strong">Class</span>，
+    <span style={{"color": "yellow"}}>行内</span>
+  </div>
+  <div>
+    <span>属性表达式：</span>
+    {/* <span style={{color: color}}>
+      对象
+    </span>*/}
+    <span data-id={ foo ? color : 'undefined' }>
+      计算
+    </span>
+    {/* <Button type="primary" onClick={function() {
+      alert(1);
+    }}>
+      点击
+    </Button> */}
   </div>
   <div>
     <Button type="primary" onClick={handleClick}>
