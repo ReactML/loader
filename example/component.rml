@@ -35,6 +35,7 @@
 <div className=":container container" style={styles.container}>
   <div>{ "插值" }</div>
   <div>{ foo }</div>
+  <div>{ foo && '你好' }</div>
   <div>{ foo + '...' }</div>
   <div>{ foo ? '1' : '2' }</div>
   <div>{ fn(1) }</div>
