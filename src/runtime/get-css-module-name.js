@@ -1,4 +1,5 @@
 const CLASS_NAME_SPLITER = /\s/;
+const hasOwn = {}.hasOwnProperty;
 
 /**
  * Support syntax of `:module`, which means global css scope.
@@ -11,10 +12,11 @@ export default function getCSSModuleName(moduleMapping, className) {
     .split(CLASS_NAME_SPLITER)
     .map(local => {
       if (local[0] === ':') {
-        const module = moduleMapping[local.slice(1)];
-        return module ? module : local;
+        return local.slice(1);
       } else {
-        return local;
+        return hasOwn.call(moduleMapping, local)
+          ? moduleMapping[local]
+          : local;
       }
     })
     .join(' ');
