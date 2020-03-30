@@ -34,6 +34,9 @@
 </style>
 
 <import Button="Button" from="@alifd/next" />
+<span style={{color: color}}>
+  object
+</span>
 <div className=":container container" style={styles.container}>
   <div>
     <span>插值：</span>
