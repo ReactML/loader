@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`parts should parse rml 1`] = `
+exports[`parts should parse basic rml 1`] = `
 Object {
   "attrs": Object {},
   "content": "import { useState, useCallback } from 'react';
@@ -22,7 +22,7 @@ Object {
 }
 `;
 
-exports[`parts should parse rml 2`] = `
+exports[`parts should parse basic rml 2`] = `
 Object {
   "attrs": Object {},
   "content": Array [
@@ -43,7 +43,7 @@ Object {
 }
 `;
 
-exports[`parts should parse rml 3`] = `
+exports[`parts should parse basic rml 3`] = `
 Object {
   "attrs": Object {},
   "content": ".foo {
@@ -53,7 +53,7 @@ Object {
 }
 `;
 
-exports[`parts should parse rml 4`] = `
+exports[`parts should parse basic rml 4`] = `
 Array [
   Object {
     "Button": "Button",

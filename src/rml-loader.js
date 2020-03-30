@@ -24,7 +24,7 @@ module.exports = function RMLLoader(rawContent) {
   const loadStyleRequest = stringifyRequest(`${paths.styleLoader}!${resourcePath}`);
 
   let loadData;
-  if (parts['script']) {
+  if (parts.script) {
     loadData = `import createData from ${loadScriptRequest};`;
   }
 
