@@ -120,6 +120,7 @@ function parseSFCParts(html) {
 function preCompileParts(html, key) {
   const parts = parseSFCParts(html);
   partsStorage.set(key, parts);
+  return parts;
 }
 
 exports.getResourcePart = getResourcePart;
