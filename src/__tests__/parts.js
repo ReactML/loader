@@ -6,8 +6,8 @@ const { readFileSync } = require('fs');
 const { join } = require('path');
 
 describe('parts', () => {
-  it('should parse rml', () => {
-    const rml = readFileSync(join(__dirname, './parts.rml'), 'utf-8');
+  it('should parse basic rml', () => {
+    const rml = readFileSync(join(__dirname, './basic.rml'), 'utf-8');
     const parts = parseSFCParts(rml);
     const script = selectPart(parts, 'script');
     expect(script).toMatchSnapshot();

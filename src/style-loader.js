@@ -8,6 +8,9 @@ module.exports = function styleLoader(styleContent) {
   const stringifyRequest = r => loaderUtils.stringifyRequest(this, r);
   const style = getResourcePart(resourcePath, 'style');
 
+  // No style tag exists.
+  if (!style) return '';
+
   // Use webpack's RuleSet utility to normalize user rules
   const compiler = this._compiler;
   const rawRules = compiler.options.module.rules;
