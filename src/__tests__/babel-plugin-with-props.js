@@ -30,6 +30,7 @@ describe('babel-plugin-with-props', () => {
       const expected = spec[1];
       const actual = transformSync(input, {
         compact: true,
+        configFile: false,
         plugins: [[plugin, {}]],
         parserOpts: {
           plugins: ['jsx']
