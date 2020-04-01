@@ -11,7 +11,7 @@ const GET_CSS_MODULE_NAME = '__get_css_module_name__';
  * @param templates
  * @return {string}
  */
-module.exports = function (templates) {
+module.exports = function(templates) {
   const { resourcePath } = this;
   const stringifyRequest = r => loaderUtils.stringifyRequest(this, r);
   const { renderer, inlineStyle } = Object.assign({}, loaderUtils.getOptions(this));
