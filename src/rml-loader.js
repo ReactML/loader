@@ -4,6 +4,7 @@ const paths = require('./paths');
 
 const defaultOptions = {
   renderer: 'react', // Can be replaced with preact/rax/...
+  inlineStyle: false, // Style should be inlined, default to false.
 };
 
 /**
@@ -15,12 +16,12 @@ module.exports = function RMLLoader(rawContent) {
   const options = Object.assign({}, defaultOptions, loaderUtils.getOptions(context));
   const stringifyRequest = r => loaderUtils.stringifyRequest(context, r);
   const { resourcePath } = context;
-  const { renderer } = options;
+  const { renderer, inlineStyle } = options;
 
   const parts = preCompileParts(rawContent, resourcePath);
 
   const loadScriptRequest = stringifyRequest(`${paths.partLoader}?part=script!${resourcePath}`);
-  const loadTemplateRequest = stringifyRequest(`${paths.templateLoader}?renderer=${renderer}!${paths.partLoader}?part=template!${resourcePath}`);
+  const loadTemplateRequest = stringifyRequest(`${paths.templateLoader}?renderer=${renderer}&inlineStyle=${inlineStyle}!${paths.partLoader}?part=template!${resourcePath}`);
   const loadStyleRequest = stringifyRequest(`${paths.styleLoader}!${resourcePath}`);
 
   let loadData;
