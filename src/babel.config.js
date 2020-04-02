@@ -90,7 +90,11 @@ module.exports = (userOptions) => {
       plugins: [
         [
           require.resolve('babel-plugin-transform-jsx-stylesheet'),
-          { retainClassName: true, injectedStyleName: styleSheet }
+          {
+            retainClassName: true,
+            injectedStyleName: styleSheet,
+            convertImport: false,
+          }
         ],
       ],
     });
