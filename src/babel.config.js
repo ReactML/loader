@@ -88,7 +88,14 @@ module.exports = (userOptions) => {
   if (styleSheet) {
     babelConfigList.push({
       plugins: [
-        [require.resolve('babel-plugin-transform-jsx-stylesheet'), { retainClassName: true }],
+        [
+          require.resolve('babel-plugin-transform-jsx-stylesheet'),
+          {
+            retainClassName: true,
+            injectedStyleName: styleSheet,
+            convertImport: false,
+          }
+        ],
       ],
     });
   }

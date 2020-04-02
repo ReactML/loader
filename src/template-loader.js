@@ -14,7 +14,7 @@ const GET_CSS_MODULE_NAME = '__get_css_module_name__';
 module.exports = function(templates) {
   const { resourcePath } = this;
   const stringifyRequest = r => loaderUtils.stringifyRequest(this, r);
-  const { renderer } = Object.assign({}, loaderUtils.getOptions(this));
+  const { renderer, inlineStyle } = Object.assign({}, loaderUtils.getOptions(this));
   if (!Array.isArray(templates)) {
     templates = [templates];
   }
@@ -30,7 +30,7 @@ module.exports = function(templates) {
     const getCSSModuleNameRuntimeRequest = stringifyRequest(getCSSModuleNameRuntime);
     extraImports += `\nimport ${GET_CSS_MODULE_NAME} from ${getCSSModuleNameRuntimeRequest};`;
   }
-  const jsx = generateJSX(templates, scopeIds, enableCSSModules);
+  const jsx = generateJSX(templates, scopeIds, enableCSSModules, inlineStyle);
 
   return `
 import { createElement } from '${renderer}';${imports}${extraImports}
@@ -79,7 +79,7 @@ function compile(template, compileOptions, babelConfig) {
   return babel.transformSync(template, finalTransformOptions);
 }
 
-function generateJSX(templates, scopeIds, enableCSSModules) {
+function generateJSX(templates, scopeIds, enableCSSModules, inlineStyle) {
   const whiteList = ['createElement', STYLE_IDENTIFIER].concat(scopeIds);
   if (enableCSSModules) {
     whiteList.push(GET_CSS_MODULE_NAME);
@@ -103,7 +103,7 @@ function generateJSX(templates, scopeIds, enableCSSModules) {
     ]);
   }
   const babelConfig = getBabelConfig({
-    styleSheet: true,
+    styleSheet: inlineStyle ? STYLE_IDENTIFIER : false,
     override: babelConfigOverride,
   });
 
