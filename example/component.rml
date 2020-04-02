@@ -76,11 +76,11 @@
     <span data-id={ foo ? color : 'undefined' }>
       计算
     </span>
-    {/* <Button type="primary" onClick={function() {
+    <Button type="primary" onClick={() => {
       alert(1);
     }}>
       点击
-    </Button> */}
+    </Button>
   </div>
   <div>
     <Button type="primary" onClick={handleClick}>

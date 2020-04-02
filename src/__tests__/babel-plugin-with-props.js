@@ -21,6 +21,10 @@ const specs = [
     '<foo onClick={(foo, bar) => { alert(foo) }} />',
     '<foo onClick={(foo,bar)=>{alert(foo);}}/>',
   ],
+  [
+    '<foo onClick={function hello(foo, bar) { alert(foo) }} />',
+    '<foo onClick={function hello(foo,bar){alert(foo);}}/>',
+  ],
 ];
 
 describe('babel-plugin-with-props', () => {

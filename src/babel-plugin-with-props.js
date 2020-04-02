@@ -36,20 +36,30 @@ module.exports = function({ types: t }, options) {
         && path.parentPath.node.key === path.node
       ) return;
 
-      // Eg: The params should not be replaced.
-      // <foo onClick={(foo, bar) => { alert(foo) }} />
-      if (
-        path.parentPath.isFunction()
-        && path.parentPath.node.params.indexOf(path.node) > -1
-      ) return;
+      // Skip function declaration cases.
+      if (path.parentPath.isFunction()) {
+        // Eg. The params should not be replaced.
+        // <foo onClick={(foo, bar) => { alert(foo) }} />
+        if (path.parentPath.node.params.indexOf(path.node) > -1) return;
+        // Eg. The id(theFnName) should not be replaced.
+        // <foo onClick={functioo theFnName(foo, bar) { alert(foo) }} />
+        if (path.parentPath.node.id === path.node) return;
+      }
 
       // Eg: The function arguments decleared identifier should not be replaced.
       // <foo onClick={(foo) => { alert(foo) }} />
       if (path.scope.getBinding(path.node.name)) return;
 
-      path.replaceWith(
-        t.memberExpression(prefix, path.node)
-      );
+      // Error do not break compiling.
+      try {
+        path.replaceWith(
+          t.memberExpression(prefix, path.node)
+        );
+      } catch (err) {
+        console.error('[WARNING] Failed to convert in babel-plugin-with-props.');
+        console.error();
+        console.error(err);
+      }
     } else if (path.isMemberExpression()) {
       let leftest = path;
       while (leftest.node.object) {
