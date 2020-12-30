@@ -5,6 +5,8 @@ const { getResourcePart } = require('./parts');
 
 const STYLE_IDENTIFIER = '__style__';
 const GET_CSS_MODULE_NAME = '__get_css_module_name__';
+const RENDERER_VANILLA = 'vanilla';
+const rendererVanillaPath = require.resolve('./runtime/vanilla');
 
 /**
  * Babel loader to parse rml templates.
@@ -32,8 +34,10 @@ module.exports = function(templates) {
   }
   const jsx = generateJSX(templates, scopeIds, enableCSSModules, inlineStyle);
 
+  const rendererImport = renderer === RENDERER_VANILLA ? rendererVanillaPath : renderer;
+
   return `
-import { createElement } from '${renderer}';${imports}${extraImports}
+import { createElement } from '${rendererImport}';${imports}${extraImports}
 export default function __render__(props, ${STYLE_IDENTIFIER}) {
   return ${jsx};
 }
