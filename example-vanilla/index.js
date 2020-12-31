@@ -1,4 +1,4 @@
-import createComponent from './component.rml';
+import createComponent from './component.html';
 
 document
   .body

@@ -1,9 +1,3 @@
-<script>
-  expect(
-    document.getElementById('foo').innerHTML
-  ).toEqual('hello world');
-</script>
-
 <style>
   .container {
     color: red;
@@ -17,3 +11,17 @@
     hello world
   </span>
 </div>
+
+<script>
+// Example code.
+function it(spec, fn) {
+  requestAnimationFrame(fn);
+};
+
+it('simple example', () => {
+  console.assert(
+    document.getElementById('foo').innerHTML === 'hello world',
+    'expect span#foo to equal \'hello world\''
+  );
+});
+</script>
