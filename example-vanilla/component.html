@@ -1,0 +1,19 @@
+<script>
+  expect(
+    document.getElementById('foo').innerHTML
+  ).toEqual('hello world');
+</script>
+
+<style>
+  .container {
+    color: red;
+    background: green;
+  }
+</style>
+
+<div>
+  HTML
+  <span id="foo" className="container">
+    hello world
+  </span>
+</div>

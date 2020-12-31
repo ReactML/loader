@@ -22,7 +22,7 @@ export function createElement(type, props) {
         if (prop in el) {
           el[prop] = value;
         } else {
-          el.setAttribute(prop, value); 
+          el.setAttribute(prop, value);
         }
     }
   }

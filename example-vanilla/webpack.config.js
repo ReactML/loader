@@ -14,7 +14,7 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.rml$/i,
+        test: /\.html$/i,
         loader: rmlLoader,
         options: {
           renderer: 'vanilla',
