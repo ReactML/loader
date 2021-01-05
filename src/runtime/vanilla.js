@@ -13,7 +13,7 @@ export function createElement(type, props) {
 
     switch (prop) {
       case STYLE:
-        setStyle(el, value);
+        Object.assign(el.style, value);
         break;
       case CLASSNAME:
         el.className = value;
@@ -38,8 +38,4 @@ export function createElement(type, props) {
   }
 
   return el;
-}
-
-function setStyle(element, style) {
-  Object.assign(element.style, style);
 }
