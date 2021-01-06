@@ -1,0 +1,27 @@
+<style>
+  .container {
+    color: red;
+    background: green;
+  }
+</style>
+
+<div>
+  HTML
+  <span id="foo" className="container">
+    hello world
+  </span>
+</div>
+
+<script>
+// Example code.
+function it(spec, fn) {
+  requestAnimationFrame(fn);
+};
+
+it('simple example', () => {
+  console.assert(
+    document.getElementById('foo').innerHTML === 'hello world',
+    'expect span#foo to equal \'hello world\''
+  );
+});
+</script>

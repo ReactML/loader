@@ -29,11 +29,12 @@ module.exports = function RMLLoader(rawContent) {
     loadData = `import createData from ${loadScriptRequest};`;
   }
 
+  const codeSafeCreateData = 'typeof createData === \'function\' ? createData(props) : null';
   const code = `${loadData}
 import render from ${loadTemplateRequest};
 import * as style from ${loadStyleRequest};
 export default function AnonymousRMLModule(props) {
-  return render(${loadData ? 'createData(props)' : 'null'}, style);
+  return render(${loadData ? codeSafeCreateData : 'null'}, style);
 }
 `;
 
