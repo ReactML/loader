@@ -20,9 +20,9 @@ module.exports = function RMLLoader(rawContent) {
 
   const parts = preCompileParts(rawContent, resourcePath);
 
-  const loadScriptRequest = stringifyRequest(`${paths.partLoader}?part=script!${resourcePath}`);
-  const loadTemplateRequest = stringifyRequest(`${paths.templateLoader}?renderer=${renderer}&inlineStyle=${inlineStyle}!${paths.partLoader}?part=template!${resourcePath}`);
-  const loadStyleRequest = stringifyRequest(`${paths.styleLoader}!${resourcePath}`);
+  const loadScriptRequest = stringifyRequest(`-!${paths.partLoader}?part=script!${resourcePath}`);
+  const loadTemplateRequest = stringifyRequest(`-!${paths.templateLoader}?renderer=${renderer}&inlineStyle=${inlineStyle}!${paths.partLoader}?part=template!${resourcePath}`);
+  const loadStyleRequest = stringifyRequest(`-!${paths.styleLoader}!${resourcePath}`);
 
   let loadData;
   if (parts.script) {
